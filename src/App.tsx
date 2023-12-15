@@ -2,18 +2,8 @@ import "./App.css";
 import { useState } from "react";
 
 const App = ()=>{
-
   const[title , setTitle] = useState("");
   const [content , setContent] = useState("");
-
-  const handleAddNote = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log("title: ", title);
-    console.log("content: ", content);
-  };
-  
-  
-
   const  [notes , setNotes ] = useState([
     {
       id: 1,
@@ -46,22 +36,33 @@ const App = ()=>{
       content: "bla bla note6",
     },
   ]);
-  
 
   interface Note {
     id: number;
     title: string;
     content: string;
-  }
-  const newNote: Note = {
-    id: notes.length + 1,
-    title: title,
-    content: content,
   };
+  
+  const handleAddNote = (event: React.FormEvent) => {
+    event.preventDefault();
 
+    const newNote: Note = {
+      id: notes.length + 1,
+      title: title,
+      content: content,
+    };
+    
+    
+    setNotes([newNote,...notes]);
+    setTitle("");
+    setContent("");
+    console.log("title: ", title);
+    console.log("content: ", content);
+  };
+  
+const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
- 
-
+  
   return (
     <div className="app-container">
       <form onSubmit = {handleAddNote} action="" className="note-form">
@@ -76,6 +77,7 @@ const App = ()=>{
               onChange={(event) => setContent(event.target.value)}
               rows={10} placeholder="Content" 
               required>
+                
         </textarea>
 
 
